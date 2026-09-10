@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { z } from 'zod';
 
 // ==========================================
@@ -58,10 +59,19 @@ export async function signUpAction(formData: FormData): Promise<ActionResult> {
     return { error: validated.error.issues[0]?.message || 'ข้อมูลไม่ถูกต้อง' };
   }
 
+  const headerList = await headers();
+  const host = headerList.get('host') || '';
+  const proto = headerList.get('x-forwarded-proto') || 'https';
+  const origin = host.includes('localhost') ? `http://${host}` : `${proto}://${host}`;
+  const emailRedirectTo = `${origin}/auth/callback?next=/bookings`;
+
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
     email: validated.data.email,
     password: validated.data.password,
+    options: {
+      emailRedirectTo,
+    },
   });
 
   if (error) {
@@ -76,7 +86,7 @@ export async function signUpAction(formData: FormData): Promise<ActionResult> {
     redirect('/bookings');
   }
 
-  return { success: true, message: 'สมัครสมาชิกสำเร็จ! หากระบบต้องการยืนยันอีเมล กรุณาตรวจสอบกล่องจดหมาย หรือเข้าสู่ระบบได้ทันที' };
+  return { success: true, message: 'สมัครสมาชิกสำเร็จ! กรุณาตรวจสอบอีเมลเพื่อยืนยันบัญชี จากนั้นระบบจะพากลับเข้าสู่ระบบอัตโนมัติ' };
 }
 
 export async function signOutAction() {
