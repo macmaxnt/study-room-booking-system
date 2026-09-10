@@ -5,7 +5,7 @@
 ---
 
 ## 🌐 Production & Repository Links
-- **Vercel Production URL**: [https://temporary-flying-tempest-nk5qawe.vercel.app](https://temporary-flying-tempest-nk5qawe.vercel.app)
+- **Vercel Production URL**: [https://study-room-booking-system.vercel.app](https://study-room-booking-system.vercel.app)
 - **GitHub Repository**: [https://github.com/macmaxnt/study-room-booking-system](https://github.com/macmaxnt/study-room-booking-system)
 
 ---
