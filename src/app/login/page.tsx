@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { signInAction, signUpAction, ActionResult } from '@/app/actions';
-import { BookOpen, Lock, Mail, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { signInAction, signUpAction } from '../actions';
+import { BookOpen, Sparkles, Lock, Mail, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -17,37 +17,45 @@ export default function LoginPage() {
     setIsPending(true);
 
     const formData = new FormData(e.currentTarget);
-    const action = isSignUp ? signUpAction : signInAction;
-    const res: ActionResult = await action(formData);
 
-    setIsPending(false);
-
-    if (res?.error) {
-      setErrorMsg(res.error);
-    } else if (res?.success && res?.message) {
-      setSuccessMsg(res.message);
+    try {
+      if (isSignUp) {
+        const res = await signUpAction(formData);
+        if (res?.error) {
+          setErrorMsg(res.error);
+        } else if (res?.success) {
+          setSuccessMsg(res.success);
+        }
+      } else {
+        const res = await signInAction(formData);
+        if (res?.error) {
+          setErrorMsg(res.error);
+        }
+      }
+    } catch {
+      setErrorMsg('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+    } finally {
+      setIsPending(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-3xl bg-white dark:bg-slate-900 p-8 shadow-xl border border-slate-200 dark:border-slate-800">
-        <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-500/30">
-            <BookOpen className="h-7 w-7" />
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="cute-card w-full max-w-md p-8 sm:p-10 space-y-6">
+        <div className="text-center space-y-2">
+          <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-300 border-[3px] border-slate-900 shadow-[4px_4px_0px_#1E293B]">
+            <BookOpen className="h-8 w-8 text-slate-900" />
           </div>
-          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {isSignUp ? 'สร้างบัญชีผู้ใช้งานใหม่' : 'เข้าสู่ระบบจองห้องอ่านหนังสือ'}
-          </h2>
-          <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
-            {isSignUp
-              ? 'กรอกอีเมลและรหัสผ่านเพื่อเริ่มต้นใช้งานระบบ'
-              : 'กรุณาเข้าสู่ระบบเพื่อดูตารางห้องและทำการจอง'}
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center justify-center gap-1.5 pt-2">
+            ระบบจองห้องอ่านหนังสือ <Sparkles className="h-5 w-5 text-amber-400 fill-amber-400" />
+          </h1>
+          <p className="text-xs font-bold text-slate-500">
+            University Study Room Booking • ปลอดภัย ใช้งานง่าย
           </p>
         </div>
 
-        {/* Tab switch */}
-        <div className="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 dark:bg-slate-800 p-1">
+        {/* Tab Switcher */}
+        <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1.5 rounded-2xl border-[2.5px] border-slate-900 shadow-[3px_3px_0px_#1E293B]">
           <button
             type="button"
             onClick={() => {
@@ -55,10 +63,10 @@ export default function LoginPage() {
               setErrorMsg(null);
               setSuccessMsg(null);
             }}
-            className={`rounded-lg py-2 text-xs font-semibold transition-all ${
+            className={`rounded-xl py-2 text-xs font-extrabold transition-all ${
               !isSignUp
-                ? 'bg-white text-slate-900 dark:bg-slate-700 dark:text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400'
+                ? 'bg-amber-300 text-slate-900 border-[2px] border-slate-900 shadow-[2px_2px_0px_#1E293B]'
+                : 'text-slate-600 hover:text-slate-900 font-bold'
             }`}
           >
             เข้าสู่ระบบ (Sign In)
@@ -70,10 +78,10 @@ export default function LoginPage() {
               setErrorMsg(null);
               setSuccessMsg(null);
             }}
-            className={`rounded-lg py-2 text-xs font-semibold transition-all ${
+            className={`rounded-xl py-2 text-xs font-extrabold transition-all ${
               isSignUp
-                ? 'bg-white text-slate-900 dark:bg-slate-700 dark:text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400'
+                ? 'bg-indigo-500 text-white border-[2px] border-slate-900 shadow-[2px_2px_0px_#1E293B]'
+                : 'text-slate-600 hover:text-slate-900 font-bold'
             }`}
           >
             สมัครสมาชิก (Sign Up)
@@ -81,49 +89,49 @@ export default function LoginPage() {
         </div>
 
         {errorMsg && (
-          <div className="flex items-start gap-2.5 rounded-xl bg-red-50 dark:bg-red-950/50 p-3.5 text-xs text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900">
-            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 rounded-2xl bg-red-100 p-4 text-xs font-bold text-red-900 border-[2.5px] border-slate-900 shadow-[3px_3px_0px_#1E293B]">
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600" />
             <p>{errorMsg}</p>
           </div>
         )}
 
         {successMsg && (
-          <div className="flex items-start gap-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 p-3.5 text-xs text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900">
-            <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 rounded-2xl bg-emerald-100 p-4 text-xs font-bold text-emerald-900 border-[2.5px] border-slate-900 shadow-[3px_3px_0px_#1E293B]">
+            <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-emerald-600" />
             <p>{successMsg}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">
-              อีเมล (Email)
+            <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">
+              อีเมล (Email) 📧
             </label>
             <div className="relative">
-              <Mail className="pointer-events-none absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
+              <Mail className="pointer-events-none absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
               <input
                 name="email"
                 type="email"
                 required
                 placeholder="student@university.ac.th"
-                className="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                className="w-full cute-input py-2.5 pl-10 pr-3.5 text-sm text-slate-900 placeholder-slate-400"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">
-              รหัสผ่าน (Password)
+            <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-1.5">
+              รหัสผ่าน (Password) 🔒
             </label>
             <div className="relative">
-              <Lock className="pointer-events-none absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
+              <Lock className="pointer-events-none absolute left-3.5 top-3.5 h-4 w-4 text-slate-500" />
               <input
                 name="password"
                 type="password"
                 required
                 minLength={6}
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-3.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                className="w-full cute-input py-2.5 pl-10 pr-3.5 text-sm text-slate-900 placeholder-slate-400"
               />
             </div>
           </div>
@@ -131,14 +139,14 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isPending}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40 disabled:opacity-50 transition-all cursor-pointer"
+            className="w-full cute-btn-primary py-3.5 text-sm cursor-pointer flex items-center justify-center gap-2 mt-2"
           >
             {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
             {isPending
               ? 'กำลังดำเนินการ...'
               : isSignUp
-              ? 'สมัครสมาชิก'
-              : 'เข้าสู่ระบบ'}
+              ? 'สมัครสมาชิกเลยยย 🎉'
+              : 'เข้าสู่ระบบ 🚀'}
           </button>
         </form>
       </div>

@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+export const runtime = 'nodejs';
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -45,14 +47,12 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/bookings') ||
     request.nextUrl.pathname.startsWith('/my-bookings');
 
-  // ถ้ายังไม่ล็อกอินแล้วพยายามเข้าหน้าจอง ให้ redirect ไป login (Requirement 02)
   if (!user && isProtectedPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
-  // ถ้าล็อกอินแล้ว เข้าหน้า login ให้ redirect ไปหน้า bookings
   if (user && isAuthPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/bookings';

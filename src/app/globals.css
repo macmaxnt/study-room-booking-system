@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #FFFDF9;
+  --foreground: #2D3748;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Nunito', 'Mitr', sans-serif;
+  background-image: radial-gradient(#FDE68A 1px, transparent 1px), radial-gradient(#93C5FD 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+}
+
+/* Neo-brutalism & Cute Cartoon Pop UI Utilities */
+.cute-card {
+  background: #ffffff;
+  border: 3px solid #1E293B;
+  box-shadow: 5px 5px 0px #1E293B;
+  border-radius: 24px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cute-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 7px 7px 0px #1E293B;
+}
+
+.cute-btn-primary {
+  background-color: #6366F1;
+  color: white;
+  border: 3px solid #1E293B;
+  box-shadow: 4px 4px 0px #1E293B;
+  border-radius: 18px;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+
+.cute-btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1E293B;
+  background-color: #4F46E5;
+}
+
+.cute-btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E293B;
+}
+
+.cute-btn-accent {
+  background-color: #F59E0B;
+  color: #1E293B;
+  border: 3px solid #1E293B;
+  box-shadow: 4px 4px 0px #1E293B;
+  border-radius: 18px;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+
+.cute-btn-accent:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1E293B;
+  background-color: #FBBF24;
+}
+
+.cute-btn-accent:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E293B;
+}
+
+.cute-btn-success {
+  background-color: #10B981;
+  color: white;
+  border: 3px solid #1E293B;
+  box-shadow: 4px 4px 0px #1E293B;
+  border-radius: 18px;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+
+.cute-btn-success:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1E293B;
+  background-color: #059669;
+}
+
+.cute-btn-success:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E293B;
+}
+
+.cute-btn-secondary {
+  background-color: #F1F5F9;
+  color: #1E293B;
+  border: 3px solid #1E293B;
+  box-shadow: 4px 4px 0px #1E293B;
+  border-radius: 18px;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+
+.cute-btn-secondary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1E293B;
+  background-color: #E2E8F0;
+}
+
+.cute-btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E293B;
+}
+
+.cute-btn-danger {
+  background-color: #EF4444;
+  color: white;
+  border: 3px solid #1E293B;
+  box-shadow: 4px 4px 0px #1E293B;
+  border-radius: 18px;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+
+.cute-btn-danger:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1E293B;
+  background-color: #DC2626;
+}
+
+.cute-btn-danger:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1E293B;
+}
+
+.cute-input {
+  background-color: #ffffff;
+  border: 3px solid #1E293B;
+  box-shadow: 3px 3px 0px #1E293B;
+  border-radius: 16px;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+
+.cute-input:focus {
+  outline: none;
+  border-color: #6366F1;
+  box-shadow: 4px 4px 0px #6366F1;
+}
+
+.cute-badge {
+  border: 2px solid #1E293B;
+  box-shadow: 2px 2px 0px #1E293B;
+  border-radius: 9999px;
+  font-weight: 700;
 }
